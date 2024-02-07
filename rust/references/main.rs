@@ -55,7 +55,37 @@ fn main() {
         let r1 = &s;
         let r2 = &s;
     
-        println!("{}, {}", r1, r2);
+        println!("s = {}, r1 = {}, r2 = {}", s, r1, r2);
+    }
+
+    println!("===================================================");
+    println!("  Chapter 4.2: Reference Scope");
+    println!("===================================================");
+    let mut s = String::from("hello");
+
+    let r1 = &s;
+    let r2 = &s;
+
+    println!("{}, {}", r1, r2);
+
+    let r3 = &mut s;
+
+    println!("this is okay: {}", r3);
+    {
+        println!("===================================================");
+        println!("  Chapter 4.2: Slices");
+        println!("===================================================");
+
+        // let mut s = String::from("hello world");
+        // let slice = first_word(&s);
+        // s.clear();
+        // println!("slice = {}", slice); // This will cause an error because clear() needs a mutable reference but the immutable refernce scope overlaps
+
+        let s = String::from("hello world!");
+        let slice = first_word(&s);
+        println!("slice = {}", slice); // slice will go out of scope here because this is the last time it's used
+        s.clear(); // This is fine because slice is now out of scope.
+        println!("s = {}", s);
     }
 }
 
@@ -65,4 +95,16 @@ fn calculate_length(s: &String) -> usize {
 
 fn change(some_string: &mut String) {
 	some_string.push_str(", world!");
+}
+
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    return &s[..]
 }
