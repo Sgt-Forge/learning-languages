@@ -81,11 +81,21 @@ fn main() {
         // s.clear();
         // println!("slice = {}", slice); // This will cause an error because clear() needs a mutable reference but the immutable refernce scope overlaps
 
-        let s = String::from("hello world!");
+        let mut s = String::from("hello world!");
         let slice = first_word(&s);
         println!("slice = {}", slice); // slice will go out of scope here because this is the last time it's used
         s.clear(); // This is fine because slice is now out of scope.
         println!("s = {}", s);
+    }
+
+    {
+        println!("===================================================");
+        println!("  Chapter 4.2: Other Slices");
+        println!("===================================================");
+
+        let a = [1, 2, 3, 4, 5];
+        let slice = &a[1..3];
+        assert_eq!(slice, &[2, 3]);
     }
 }
 
