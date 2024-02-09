@@ -80,11 +80,65 @@ fn main() {
         let rect = Rectangle {
             width: 30,
             height: 50
+        };
+
+        println!("the area of the rectangle is {} square pixels.", area3(&rect));
+    }
+
+    {
+        println!("==================================================");
+        println!("Chapter 5: Example Program - Debugging");
+        println!("==================================================");
+        
+        let rect1 = Rectangle {
+            width: 30,
+            height: 50
+        };
+
+        println!("rect1 is {:?}", rect1);
+    }
+
+    {
+        println!("==================================================");
+        println!("Chapter 5: Example Program - dbg!");
+        println!("==================================================");
+        let scale = 2;
+        let rect1 = Rectangle {
+            width: dbg!(30 * scale),
+            height: 50
+        };
+
+        dbg!(&rect1);
+    }
+
+    {
+        println!("==================================================");
+        println!("Chapter 5: Method syntax");
+        println!("==================================================");
+        #[derive(Debug)]
+        struct Rectangle2 {
+            width: u32,
+            height: u32,
         }
 
-        println!("the area of the rectangle is {} square pixels.", area3(rect));
+        impl Rectangle2 {
+            fn area(&self) -> u32{
+                self.width * self.height
+            }
+        }
+
+        let rect1 = Rectangle2 {
+            width: 30,
+            height: 50,
+        };
+
+        println!(
+            "The area of the rectangle is {} square pixels.",
+            rect1.area()
+        );
     }
 }
+#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32
@@ -98,10 +152,10 @@ fn area1(width: u32, height: u32) -> u32 {
 
 // This is getting better, I know that the arguments are the dimenssion of something, but now I don't know which is width, height, etc. they are just numbers
 // That might be okay for area, but not for drawing
-fn area2(dimensions: (u32, u32)) -> {
+fn area2(dimensions: (u32, u32)) -> u32 {
     dimensions.0 * dimensions.1
 }
 
-fn area2(rect: Rectangle) -> {
+fn area3(rect: &Rectangle) -> u32 {
     rect.width * rect.height
 }
