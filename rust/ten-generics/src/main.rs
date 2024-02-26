@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 fn main() {
     println!("==================================================");
     println!("Chapter 10: Generics");
@@ -66,6 +68,81 @@ fn main() {
         }
         
     }
+    println!("==================================================");
+    println!("Chapter 10: traits as parameters");
+    println!("==================================================");
+    {
+        struct Pair<T> {
+            x: T,
+            y: T,
+        }
+        impl<T> Pair<T> {
+            fn new(x: T, y: T) -> Self {
+                Self { x, y }
+            }
+        }
+
+        impl<T: Display + PartialOrd> Pair<T> {
+            fn cmp_display(&self) {
+                if self.x >= self. y {
+                    println!("The lartgest member is x = {}", self.x);
+                } else {
+                    println!("The lartgest member is y = {}", self.y);
+                }
+            }
+        }
+    }
+    println!("==================================================");
+    println!("Chapter 10: validating references with lifetimes");
+    println!("==================================================");
+    {
+        fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
+        }
+
+        let z;
+        {
+            let x = "hihihiihihihihhihih";
+            let y = "hello";
+            z = longest(x, y);
+        }
+        
+        println!("the longest = {}", z);
+    }
+    println!("==================================================");
+    println!("Chapter 10: playing with lifetimes");
+    println!("==================================================");
+    {
+        fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+            if x.len() > y.len() {
+                x
+            } else {
+                y
+            }
+        }
+        fn test_lifetimes() -> &'static str {
+            let ret = "something else";
+            &ret
+        }
+        fn test2(s1: &str, s2: &str) -> &'static str{
+            println!("s1 = {s1}, s2 = {s2}");
+            let some_str = "a string literal";
+
+            &some_str
+        }
+
+        let a1 = "hi";
+        let a2 = "test";
+        let a3 = test_lifetimes();
+        let a4 = test2(a1, a2);
+        println!("a3 = {a3}");
+        println!("a4 = {a4}");
+    }
+
 }
 
 fn largest_copy(list: &[i32]) -> i32 {
