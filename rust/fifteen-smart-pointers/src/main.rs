@@ -29,4 +29,27 @@ fn main() {
 
     assert_eq!(5, x);
     assert_eq!(5, *y); // compiles because we implemented deref
+    
+    struct CustomSmartPointer {
+        data: String,
+    }
+
+    impl Drop for CustomSmartPointer {
+        fn drop(&mut self) {
+            println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+        }
+    }
+    let _c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let _d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    println!("CustomSmartPointers created.");
+    let e = CustomSmartPointer {
+        data: String::from("more stuff"),
+    };
+    println!("Created another custom smart pointer.");
+    drop(e);
+    println!("Dropping the new CustomSmartPointer before the end of main.");
 }
